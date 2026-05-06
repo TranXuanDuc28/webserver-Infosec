@@ -1,1173 +1,1196 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap');
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0
-  }
-
-  :root {
-    --bg: #0d1117;
-    --bg2: #161b22;
-    --bg3: #21262d;
-    --bg4: #30363d;
-    --border: #30363d;
-    --border2: #484f58;
-    --text: #e6edf3;
-    --text2: #8b949e;
-    --text3: #6e7681;
-    --blue: #58a6ff;
-    --blue-bg: #0d2340;
-    --green: #3fb950;
-    --green-bg: #0f2d1a;
-    --amber: #d29922;
-    --amber-bg: #271d00;
-    --red: #f85149;
-    --red-bg: #2d1114;
-    --purple: #bc8cff;
-    --purple-bg: #1c1540;
-    --cyan: #39d353;
-    --radius: 6px;
-    --radius-lg: 10px;
-    --font: 'Sora', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
-  }
-
-  body {
-    font-family: var(--font)
-  }
-
-  #shell {
-    display: flex;
-    height: 100vh;
-    background: var(--bg);
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border)
-  }
-
-  /* SIDEBAR */
-  #sb {
-    width: 200px;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0
-  }
-
-  .sb-top {
-    padding: 14px 14px 10px;
-    border-bottom: 1px solid var(--border)
-  }
-
-  .sb-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 2px
-  }
-
-  .logo-icon {
-    width: 26px;
-    height: 26px;
-    background: var(--blue);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    color: #fff;
-    font-family: var(--mono);
-    font-weight: 500
-  }
-
-  .sb-logo span {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text)
-  }
-
-  .sb-sub {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono)
-  }
-
-  .sb-nav {
-    padding: 8px 8px;
-    flex: 1;
-    overflow-y: auto
-  }
-
-  .nav-sec {
-    font-size: 9px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding: 8px 6px 3px;
-    font-family: var(--mono)
-  }
-
-  .ni {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--text2);
-    transition: all .15s;
-    position: relative
-  }
-
-  .ni:hover {
-    background: var(--bg3);
-    color: var(--text)
-  }
-
-  .ni.active {
-    background: var(--blue-bg);
-    color: var(--blue)
-  }
-
-  .ni .badge {
-    margin-left: auto;
-    background: var(--blue);
-    color: #fff;
-    font-size: 9px;
-    padding: 1px 5px;
-    border-radius: 20px;
-    font-family: var(--mono)
-  }
-
-  .sb-foot {
-    padding: 10px 12px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px
-  }
-
-  .av {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--blue-bg);
-    color: var(--blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    font-family: var(--mono);
-    flex-shrink: 0
-  }
-
-  .av.sm {
-    width: 22px;
-    height: 22px;
-    font-size: 9px
-  }
-
-  .sb-foot-info p {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text)
-  }
-
-  .sb-foot-info span {
-    font-size: 10px;
-    color: var(--text3)
-  }
-
-  /* MAIN */
-  #main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: var(--bg)
-  }
-
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-    flex-shrink: 0
-  }
-
-  .topbar-left h1 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text)
-  }
-
-  .topbar-left .breadcrumb {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono);
-    margin-bottom: 1px
-  }
-
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 6px
-  }
-
-  .btn {
-    padding: 5px 11px;
-    border-radius: var(--radius);
-    font-size: 12px;
-    cursor: pointer;
-    font-family: var(--font);
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    color: var(--text2);
-    transition: all .15s;
-    display: flex;
-    align-items: center;
-    gap: 5px
-  }
-
-  .btn:hover {
-    border-color: var(--border2);
-    color: var(--text)
-  }
-
-  .btn-blue {
-    background: var(--blue);
-    color: #0d1117;
-    border-color: var(--blue);
-    font-weight: 500
-  }
-
-  .btn-blue:hover {
-    opacity: .88;
-    color: #0d1117
-  }
-
-  .btn-green {
-    background: var(--green);
-    color: #0d1117;
-    border-color: var(--green);
-    font-weight: 500
-  }
-
-  .btn-green:hover {
-    opacity: .88;
-    color: #0d1117
-  }
-
-  #content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 14px 16px
-  }
-
-  #content::-webkit-scrollbar {
-    width: 4px
-  }
-
-  #content::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px
-  }
-
-  /* STATS */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 14px
-  }
-
-  .sc {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 11px 13px
-  }
-
-  .sc-label {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono);
-    margin-bottom: 4px
-  }
-
-  .sc-val {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1;
-    font-family: var(--mono)
-  }
-
-  .sc-sub {
-    font-size: 10px;
-    color: var(--text3);
-    margin-top: 3px
-  }
-
-  /* KANBAN */
-  .kanban {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px
-  }
-
-  .kcol {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 10px;
-    min-height: 200px;
-    transition: border-color .2s
-  }
-
-  .kcol.drag-over {
-    border-color: var(--blue);
-    background: #0d2340
-  }
-
-  .khead {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px
-  }
-
-  .khead-left {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text2);
-    font-family: var(--mono)
-  }
-
-  .kdot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%
-  }
-
-  .kcount {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono)
-  }
-
-  /* TASK CARD */
-  .tc {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 10px 11px;
-    margin-bottom: 7px;
-    cursor: grab;
-    transition: all .2s;
-    user-select: none
-  }
-
-  .tc:hover {
-    border-color: var(--border2)
-  }
-
-  .tc.dragging {
-    opacity: .4;
-    cursor: grabbing
-  }
-
-  .tc-tag {
-    font-size: 9px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    display: inline-block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    font-family: var(--mono)
-  }
-
-  .tag-blue {
-    background: var(--blue-bg);
-    color: var(--blue)
-  }
-
-  .tag-green {
-    background: var(--green-bg);
-    color: var(--green)
-  }
-
-  .tag-amber {
-    background: var(--amber-bg);
-    color: var(--amber)
-  }
-
-  .tag-red {
-    background: var(--red-bg);
-    color: var(--red)
-  }
-
-  .tag-purple {
-    background: var(--purple-bg);
-    color: var(--purple)
-  }
-
-  .tc-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.4;
-    margin-bottom: 7px
-  }
-
-  .tc-desc {
-    font-size: 10px;
-    color: var(--text3);
-    margin-bottom: 7px;
-    line-height: 1.4
-  }
-
-  .pb-wrap {
-    height: 3px;
-    background: var(--bg4);
-    border-radius: 2px;
-    margin-bottom: 7px
-  }
-
-  .pb {
-    height: 3px;
-    border-radius: 2px;
-    transition: width .3s
-  }
-
-  .tc-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between
-  }
-
-  .tc-due {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono);
-    display: flex;
-    align-items: center;
-    gap: 3px
-  }
-
-  .tc-avs {
-    display: flex
-  }
-
-  .tc-avs .av {
-    margin-left: -5px;
-    border: 1.5px solid var(--bg3)
-  }
-
-  .tc-avs .av:first-child {
-    margin-left: 0
-  }
-
-  .add-task-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 4px;
-    font-size: 11px;
-    color: var(--text3);
-    cursor: pointer;
-    border-radius: var(--radius);
-    transition: all .15s;
-    font-family: var(--mono)
-  }
-
-  .add-task-btn:hover {
-    background: var(--bg3);
-    color: var(--text2)
-  }
-
-  /* PRIORITY dot */
-  .prio {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 3px
-  }
-
-  .prio-high {
-    background: var(--red)
-  }
-
-  .prio-med {
-    background: var(--amber)
-  }
-
-  .prio-low {
-    background: var(--green)
-  }
-
-  /* MODAL */
-  #modal-bg {
-    display: none;
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, .6);
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    border-radius: 12px
-  }
-
-  #modal-bg.show {
-    display: flex
-  }
-
-  #modal {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius-lg);
-    width: 360px;
-    padding: 18px;
-    max-height: 80%;
-    overflow-y: auto
-  }
-
-  .modal-h {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px
-  }
-
-  .modal-h h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    font-family: var(--mono)
-  }
-
-  .mc {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text3);
-    font-size: 16px;
-    line-height: 1
-  }
-
-  .fl {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono);
-    margin-bottom: 4px;
-    margin-top: 10px
-  }
-
-  .fi {
-    width: 100%;
-    padding: 7px 10px;
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    font-size: 12px;
-    font-family: var(--font);
-    background: var(--bg3);
-    color: var(--text);
-    outline: none
-  }
-
-  .fi:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 2px rgba(88, 166, 255, .15)
-  }
-
-  select.fi {
-    cursor: pointer;
-    appearance: none
-  }
-
-  textarea.fi {
-    resize: vertical;
-    min-height: 60px
-  }
-
-  .modal-foot {
-    margin-top: 14px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 7px
-  }
-
-  /* AI PANEL */
-  #ai-panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 14px;
-    margin-bottom: 14px
-  }
-
-  .ai-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px
-  }
-
-  .ai-icon {
-    width: 24px;
-    height: 24px;
-    background: var(--purple-bg);
-    border: 1px solid var(--purple);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px
-  }
-
-  .ai-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-    font-family: var(--mono)
-  }
-
-  #ai-out {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.6;
-    min-height: 40px;
-    border-left: 2px solid var(--purple);
-    padding-left: 10px;
-    font-style: italic
-  }
-
-  .ai-loading {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--text3);
-    font-size: 11px;
-    font-family: var(--mono)
-  }
-
-  .dots span {
-    animation: blink 1.2s infinite;
-    opacity: 0
-  }
-
-  .dots span:nth-child(2) {
-    animation-delay: .2s
-  }
-
-  .dots span:nth-child(3) {
-    animation-delay: .4s
-  }
-
-  @keyframes blink {
-
-    0%,
-    100% {
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>IT Project Manager</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/tabler-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --bg4: #30363d;
+      --border: #30363d;
+      --border2: #484f58;
+      --text: #e6edf3;
+      --text2: #8b949e;
+      --text3: #6e7681;
+      --blue: #58a6ff;
+      --blue-bg: #0d2340;
+      --green: #3fb950;
+      --green-bg: #0f2d1a;
+      --amber: #d29922;
+      --amber-bg: #271d00;
+      --red: #f85149;
+      --red-bg: #2d1114;
+      --purple: #bc8cff;
+      --purple-bg: #1c1540;
+      --cyan: #39d353;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --font: 'Sora', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font)
+    }
+
+    #shell {
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border)
+    }
+
+    /* SIDEBAR */
+    #sb {
+      width: 200px;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0
+    }
+
+    .sb-top {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sb-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px
+    }
+
+    .logo-icon {
+      width: 26px;
+      height: 26px;
+      background: var(--blue);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      font-family: var(--mono);
+      font-weight: 500
+    }
+
+    .sb-logo span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .sb-sub {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono)
+    }
+
+    .sb-nav {
+      padding: 8px 8px;
+      flex: 1;
+      overflow-y: auto
+    }
+
+    .nav-sec {
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding: 8px 6px 3px;
+      font-family: var(--mono)
+    }
+
+    .ni {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text2);
+      transition: all .15s;
+      position: relative
+    }
+
+    .ni:hover {
+      background: var(--bg3);
+      color: var(--text)
+    }
+
+    .ni.active {
+      background: var(--blue-bg);
+      color: var(--blue)
+    }
+
+    .ni .badge {
+      margin-left: auto;
+      background: var(--blue);
+      color: #fff;
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 20px;
+      font-family: var(--mono)
+    }
+
+    .sb-foot {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue-bg);
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: var(--mono);
+      flex-shrink: 0
+    }
+
+    .av.sm {
+      width: 22px;
+      height: 22px;
+      font-size: 9px
+    }
+
+    .sb-foot-info p {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text)
+    }
+
+    .sb-foot-info span {
+      font-size: 10px;
+      color: var(--text3)
+    }
+
+    /* MAIN */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg)
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      flex-shrink: 0
+    }
+
+    .topbar-left h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .topbar-left .breadcrumb {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono);
+      margin-bottom: 1px
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .btn {
+      padding: 5px 11px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--font);
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text2);
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    .btn:hover {
+      border-color: var(--border2);
+      color: var(--text)
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      color: #0d1117;
+      border-color: var(--blue);
+      font-weight: 500
+    }
+
+    .btn-blue:hover {
+      opacity: .88;
+      color: #0d1117
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #0d1117;
+      border-color: var(--green);
+      font-weight: 500
+    }
+
+    .btn-green:hover {
+      opacity: .88;
+      color: #0d1117
+    }
+
+    #content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px
+    }
+
+    #content::-webkit-scrollbar {
+      width: 4px
+    }
+
+    #content::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .sc {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 11px 13px
+    }
+
+    .sc-label {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono);
+      margin-bottom: 4px
+    }
+
+    .sc-val {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+      font-family: var(--mono)
+    }
+
+    .sc-sub {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 3px
+    }
+
+    /* KANBAN */
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px
+    }
+
+    .kcol {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px;
+      min-height: 200px;
+      transition: border-color .2s
+    }
+
+    .kcol.drag-over {
+      border-color: var(--blue);
+      background: #0d2340
+    }
+
+    .khead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px
+    }
+
+    .khead-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      font-family: var(--mono)
+    }
+
+    .kdot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%
+    }
+
+    .kcount {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono)
+    }
+
+    /* TASK CARD */
+    .tc {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 11px;
+      margin-bottom: 7px;
+      cursor: grab;
+      transition: all .2s;
+      user-select: none
+    }
+
+    .tc:hover {
+      border-color: var(--border2)
+    }
+
+    .tc.dragging {
+      opacity: .4;
+      cursor: grabbing
+    }
+
+    .tc-tag {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-family: var(--mono)
+    }
+
+    .tag-blue {
+      background: var(--blue-bg);
+      color: var(--blue)
+    }
+
+    .tag-green {
+      background: var(--green-bg);
+      color: var(--green)
+    }
+
+    .tag-amber {
+      background: var(--amber-bg);
+      color: var(--amber)
+    }
+
+    .tag-red {
+      background: var(--red-bg);
+      color: var(--red)
+    }
+
+    .tag-purple {
+      background: var(--purple-bg);
+      color: var(--purple)
+    }
+
+    .tc-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 7px
+    }
+
+    .tc-desc {
+      font-size: 10px;
+      color: var(--text3);
+      margin-bottom: 7px;
+      line-height: 1.4
+    }
+
+    .pb-wrap {
+      height: 3px;
+      background: var(--bg4);
+      border-radius: 2px;
+      margin-bottom: 7px
+    }
+
+    .pb {
+      height: 3px;
+      border-radius: 2px;
+      transition: width .3s
+    }
+
+    .tc-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .tc-due {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      gap: 3px
+    }
+
+    .tc-avs {
+      display: flex
+    }
+
+    .tc-avs .av {
+      margin-left: -5px;
+      border: 1.5px solid var(--bg3)
+    }
+
+    .tc-avs .av:first-child {
+      margin-left: 0
+    }
+
+    .add-task-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 4px;
+      font-size: 11px;
+      color: var(--text3);
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: all .15s;
+      font-family: var(--mono)
+    }
+
+    .add-task-btn:hover {
+      background: var(--bg3);
+      color: var(--text2)
+    }
+
+    /* PRIORITY dot */
+    .prio {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 3px
+    }
+
+    .prio-high {
+      background: var(--red)
+    }
+
+    .prio-med {
+      background: var(--amber)
+    }
+
+    .prio-low {
+      background: var(--green)
+    }
+
+    /* MODAL */
+    #modal-bg {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      border-radius: 12px
+    }
+
+    #modal-bg.show {
+      display: flex
+    }
+
+    #modal {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      width: 360px;
+      padding: 18px;
+      max-height: 80%;
+      overflow-y: auto
+    }
+
+    .modal-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px
+    }
+
+    .modal-h h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: var(--mono)
+    }
+
+    .mc {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      font-size: 16px;
+      line-height: 1
+    }
+
+    .fl {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono);
+      margin-bottom: 4px;
+      margin-top: 10px
+    }
+
+    .fi {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-family: var(--font);
+      background: var(--bg3);
+      color: var(--text);
+      outline: none
+    }
+
+    .fi:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px rgba(88, 166, 255, .15)
+    }
+
+    select.fi {
+      cursor: pointer;
+      appearance: none
+    }
+
+    textarea.fi {
+      resize: vertical;
+      min-height: 60px
+    }
+
+    .modal-foot {
+      margin-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 7px
+    }
+
+    /* AI PANEL */
+    #ai-panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 14px
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px
+    }
+
+    .ai-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--purple-bg);
+      border: 1px solid var(--purple);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px
+    }
+
+    .ai-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      font-family: var(--mono)
+    }
+
+    #ai-out {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.6;
+      min-height: 40px;
+      border-left: 2px solid var(--purple);
+      padding-left: 10px;
+      font-style: italic
+    }
+
+    .ai-loading {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text3);
+      font-size: 11px;
+      font-family: var(--mono)
+    }
+
+    .dots span {
+      animation: blink 1.2s infinite;
       opacity: 0
     }
 
-    50% {
-      opacity: 1
+    .dots span:nth-child(2) {
+      animation-delay: .2s
     }
-  }
 
-  /* CALENDAR */
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px
-  }
+    .dots span:nth-child(3) {
+      animation-delay: .4s
+    }
 
-  .cal-day-name {
-    font-size: 10px;
-    color: var(--text3);
-    font-family: var(--mono);
-    text-align: center;
-    padding: 4px 0
-  }
+    @keyframes blink {
 
-  .cal-day {
-    min-height: 64px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 5px;
-    cursor: pointer;
-    transition: border-color .15s
-  }
+      0%,
+      100% {
+        opacity: 0
+      }
 
-  .cal-day:hover {
-    border-color: var(--border2)
-  }
+      50% {
+        opacity: 1
+      }
+    }
 
-  .cal-day.today {
-    border-color: var(--blue)
-  }
+    /* CALENDAR */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px
+    }
 
-  .cal-day.other-month .cal-num {
-    color: var(--text3)
-  }
+    .cal-day-name {
+      font-size: 10px;
+      color: var(--text3);
+      font-family: var(--mono);
+      text-align: center;
+      padding: 4px 0
+    }
 
-  .cal-num {
-    font-size: 11px;
-    font-family: var(--mono);
-    color: var(--text);
-    margin-bottom: 3px
-  }
+    .cal-day {
+      min-height: 64px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 5px;
+      cursor: pointer;
+      transition: border-color .15s
+    }
 
-  .cal-event {
-    font-size: 9px;
-    padding: 1px 4px;
-    border-radius: 3px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-  }
+    .cal-day:hover {
+      border-color: var(--border2)
+    }
 
-  .ev-blue {
-    background: var(--blue-bg);
-    color: var(--blue)
-  }
+    .cal-day.today {
+      border-color: var(--blue)
+    }
 
-  .ev-green {
-    background: var(--green-bg);
-    color: var(--green)
-  }
+    .cal-day.other-month .cal-num {
+      color: var(--text3)
+    }
 
-  .ev-amber {
-    background: var(--amber-bg);
-    color: var(--amber)
-  }
+    .cal-num {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text);
+      margin-bottom: 3px
+    }
 
-  .ev-red {
-    background: var(--red-bg);
-    color: var(--red)
-  }
+    .cal-event {
+      font-size: 9px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
 
-  /* CHART */
-  .chart-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px
-  }
+    .ev-blue {
+      background: var(--blue-bg);
+      color: var(--blue)
+    }
 
-  .chart-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 13px
-  }
+    .ev-green {
+      background: var(--green-bg);
+      color: var(--green)
+    }
 
-  .chart-title {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text);
-    font-family: var(--mono);
-    margin-bottom: 12px
-  }
+    .ev-amber {
+      background: var(--amber-bg);
+      color: var(--amber)
+    }
 
-  .bar-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 100px
-  }
+    .ev-red {
+      background: var(--red-bg);
+      color: var(--red)
+    }
 
-  .bar-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px
-  }
+    /* CHART */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px
+    }
 
-  .bar {
-    width: 100%;
-    border-radius: 4px 4px 0 0;
-    transition: height .4s
-  }
+    .chart-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 13px
+    }
 
-  .bar-label {
-    font-size: 9px;
-    color: var(--text3);
-    font-family: var(--mono)
-  }
+    .chart-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text);
+      font-family: var(--mono);
+      margin-bottom: 12px
+    }
 
-  .bar-val {
-    font-size: 9px;
-    color: var(--text2);
-    font-family: var(--mono)
-  }
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 100px
+    }
 
-  .donut-wrap {
-    display: flex;
-    align-items: center;
-    gap: 16px
-  }
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px
+    }
 
-  .donut-legend {
-    display: flex;
-    flex-direction: column;
-    gap: 6px
-  }
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      transition: height .4s
+    }
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-    color: var(--text2);
-    font-family: var(--mono)
-  }
+    .bar-label {
+      font-size: 9px;
+      color: var(--text3);
+      font-family: var(--mono)
+    }
 
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%
-  }
+    .bar-val {
+      font-size: 9px;
+      color: var(--text2);
+      font-family: var(--mono)
+    }
 
-  /* TOAST */
-  #toast {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 300;
-    background: var(--green-bg);
-    border: 1px solid var(--green);
-    color: var(--green);
-    padding: 8px 13px;
-    border-radius: var(--radius-lg);
-    font-size: 11px;
-    font-family: var(--mono);
-    display: none;
-    align-items: center;
-    gap: 6px
-  }
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
 
-  #toast.show {
-    display: flex
-  }
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
 
-  /* Page panels */
-  .page {
-    display: none
-  }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text2);
+      font-family: var(--mono)
+    }
 
-  .page.active {
-    display: block
-  }
-</style>
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%
+    }
 
-<div id="shell" style="position:relative">
-  <!-- SIDEBAR -->
-  <div id="sb">
-    <div class="sb-top">
-      <div class="sb-logo">
-        <div class="logo-icon">&lt;/&gt;</div><span>Group 3</span>
-      </div>
-      <div class="sb-sub">IT Project Manager v2.0</div>
-    </div>
-    <div class="sb-nav">
-      <div class="nav-sec">Workspace</div>
-      <div class="ni" onclick="go(this,'dashboard')"><i class="ti ti-layout-dashboard" style="font-size:14px"
-          aria-hidden="true"></i> Dashboard</div>
-      <div class="ni active" onclick="go(this,'board')"><i class="ti ti-layout-kanban" style="font-size:14px"
-          aria-hidden="true"></i> Kanban Board <span class="badge" id="sb-cnt">7</span></div>
-      <div class="nav-sec">Kế hoạch</div>
-      <div class="ni" onclick="go(this,'calendar')"><i class="ti ti-calendar" style="font-size:14px"
-          aria-hidden="true"></i> Lịch công tác</div>
-      <div class="ni" onclick="go(this,'report')"><i class="ti ti-chart-bar" style="font-size:14px"
-          aria-hidden="true"></i> Báo cáo</div>
-      <div class="nav-sec">Công cụ</div>
-      <div class="ni" onclick="go(this,'ai')"><i class="ti ti-robot" style="font-size:14px" aria-hidden="true"></i> AI
-        Assistant</div>
-      <div class="ni" onclick="exportExcel()"><i class="ti ti-file-spreadsheet" style="font-size:14px"
-          aria-hidden="true"></i> Xuất Excel</div>
-    </div>
-    <div class="sb-foot">
-      <div class="av">NT</div>
-      <div class="sb-foot-info">
-        <p>InfoSec</span>
-      </div>
-    </div>
-  </div>
-  <!-- MAIN -->
-  <div id="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <div class="breadcrumb" id="bread">Group 3 / kanban</div>
-        <h1 id="ptitle">Kanban Board</h1>
-      </div>
-      <div class="topbar-right">
-        <button class="btn" onclick="callAI()"><i class="ti ti-robot" aria-hidden="true" style="font-size:13px"></i> AI
-          Tóm tắt</button>
-        <button class="btn btn-green" onclick="exportExcel()"><i class="ti ti-file-spreadsheet" aria-hidden="true"
-            style="font-size:13px"></i> Excel</button>
-        <button class="btn btn-blue" onclick="openModal(-1)"><i class="ti ti-plus" aria-hidden="true"
-            style="font-size:13px"></i> Thêm task</button>
-      </div>
-    </div>
-    <div id="content">
-      <!-- BOARD PAGE -->
-      <div class="page active" id="pg-board">
-        <div class="stats" id="stats-row"></div>
-        <div id="ai-panel" style="display:none">
-          <div class="ai-header">
-            <div class="ai-icon">✦</div>
-            <div class="ai-title">Claude AI — Tóm tắt tiến độ dự án</div>
-            <button class="btn" style="margin-left:auto;font-size:10px"
-              onclick="document.getElementById('ai-panel').style.display='none'">Đóng</button>
-          </div>
-          <div id="ai-out">Nhấn "AI Tóm tắt" để phân tích tiến độ...</div>
+    /* TOAST */
+    #toast {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 300;
+      background: var(--green-bg);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 8px 13px;
+      border-radius: var(--radius-lg);
+      font-size: 11px;
+      font-family: var(--mono);
+      display: none;
+      align-items: center;
+      gap: 6px
+    }
+
+    #toast.show {
+      display: flex
+    }
+
+    /* Page panels */
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="shell" style="position:relative">
+    <!-- SIDEBAR -->
+    <div id="sb">
+      <div class="sb-top">
+        <div class="sb-logo">
+          <div class="logo-icon">&lt;/&gt;</div><span>Group 3</span>
         </div>
-        <div class="kanban" id="kanban"></div>
+        <div class="sb-sub">IT Project Manager v2.0</div>
       </div>
-      <!-- CALENDAR PAGE -->
-      <div class="page" id="pg-calendar">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--mono)" id="cal-title"></div>
-          <div style="display:flex;gap:6px">
-            <button class="btn" onclick="calNav(-1)"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
-            <button class="btn" onclick="calNav(1)"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
-          </div>
+      <div class="sb-nav">
+        <div class="nav-sec">Workspace</div>
+        <div class="ni" onclick="go(this,'dashboard')"><i class="ti ti-layout-dashboard" style="font-size:14px"
+            aria-hidden="true"></i> Dashboard</div>
+        <div class="ni active" onclick="go(this,'board')"><i class="ti ti-layout-kanban" style="font-size:14px"
+            aria-hidden="true"></i> Kanban Board <span class="badge" id="sb-cnt">7</span></div>
+        <div class="nav-sec">Kế hoạch</div>
+        <div class="ni" onclick="go(this,'calendar')"><i class="ti ti-calendar" style="font-size:14px"
+            aria-hidden="true"></i> Lịch công tác</div>
+        <div class="ni" onclick="go(this,'report')"><i class="ti ti-chart-bar" style="font-size:14px"
+            aria-hidden="true"></i> Báo cáo</div>
+        <div class="nav-sec">Công cụ</div>
+        <div class="ni" onclick="go(this,'ai')"><i class="ti ti-robot" style="font-size:14px" aria-hidden="true"></i> AI
+          Assistant</div>
+        <div class="ni" onclick="exportExcel()"><i class="ti ti-file-spreadsheet" style="font-size:14px"
+            aria-hidden="true"></i> Xuất Excel</div>
+      </div>
+      <div class="sb-foot">
+        <div class="av">NT</div>
+        <div class="sb-foot-info">
+          <p>InfoSec</span>
         </div>
-        <div class="cal-grid" id="cal-names"></div>
-        <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
       </div>
-      <!-- REPORT PAGE -->
-      <div class="page" id="pg-report">
-        <div class="chart-row">
-          <div class="chart-card">
-            <div class="chart-title">Tasks theo tháng</div>
-            <div class="bar-chart" id="bar-chart"></div>
+    </div>
+    <!-- MAIN -->
+    <div id="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="breadcrumb" id="bread">Group 3 / kanban</div>
+          <h1 id="ptitle">Kanban Board</h1>
+        </div>
+        <div class="topbar-right">
+          <button class="btn" onclick="callAI()"><i class="ti ti-robot" aria-hidden="true" style="font-size:13px"></i>
+            AI
+            Tóm tắt</button>
+          <button class="btn btn-green" onclick="exportExcel()"><i class="ti ti-file-spreadsheet" aria-hidden="true"
+              style="font-size:13px"></i> Excel</button>
+          <button class="btn btn-blue" onclick="openModal(-1)"><i class="ti ti-plus" aria-hidden="true"
+              style="font-size:13px"></i> Thêm task</button>
+        </div>
+      </div>
+      <div id="content">
+        <!-- BOARD PAGE -->
+        <div class="page active" id="pg-board">
+          <div class="stats" id="stats-row"></div>
+          <div id="ai-panel" style="display:none">
+            <div class="ai-header">
+              <div class="ai-icon">✦</div>
+              <div class="ai-title">Claude AI — Tóm tắt tiến độ dự án</div>
+              <button class="btn" style="margin-left:auto;font-size:10px"
+                onclick="document.getElementById('ai-panel').style.display='none'">Đóng</button>
+            </div>
+            <div id="ai-out">Nhấn "AI Tóm tắt" để phân tích tiến độ...</div>
           </div>
-          <div class="chart-card">
-            <div class="chart-title">Phân bổ trạng thái</div>
-            <div class="donut-wrap">
-              <canvas id="donut" width="100" height="100"></canvas>
-              <div class="donut-legend" id="donut-legend"></div>
+          <div class="kanban" id="kanban"></div>
+        </div>
+        <!-- CALENDAR PAGE -->
+        <div class="page" id="pg-calendar">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--mono)" id="cal-title"></div>
+            <div style="display:flex;gap:6px">
+              <button class="btn" onclick="calNav(-1)"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+              <button class="btn" onclick="calNav(1)"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
             </div>
           </div>
+          <div class="cal-grid" id="cal-names"></div>
+          <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
         </div>
-        <div class="chart-card"
-          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px">
-          <div class="chart-title">Danh sách tất cả tasks</div>
-          <table style="width:100%;border-collapse:collapse;font-size:11px">
-            <thead>
-              <tr style="border-bottom:1px solid var(--border)">
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">#
-                </th>
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
-                  Tiêu đề</th>
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
-                  Tag</th>
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
-                  Trạng thái</th>
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
-                  Tiến độ</th>
-                <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
-                  Hạn</th>
-              </tr>
-            </thead>
-            <tbody id="report-table"></tbody>
-          </table>
-        </div>
-      </div>
-      <!-- AI PAGE -->
-      <div class="page" id="pg-ai">
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px">
-          <div class="ai-header" style="margin-bottom:14px">
-            <div class="ai-icon" style="width:32px;height:32px;font-size:16px">✦</div>
-            <div>
-              <div style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--mono)">Claude AI Assistant
+        <!-- REPORT PAGE -->
+        <div class="page" id="pg-report">
+          <div class="chart-row">
+            <div class="chart-card">
+              <div class="chart-title">Tasks theo tháng</div>
+              <div class="bar-chart" id="bar-chart"></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Phân bổ trạng thái</div>
+              <div class="donut-wrap">
+                <canvas id="donut" width="100" height="100"></canvas>
+                <div class="donut-legend" id="donut-legend"></div>
               </div>
-              <div style="font-size:10px;color:var(--text3)">Phân tích dự án & gợi ý cải thiện</div>
             </div>
           </div>
-          <div id="ai-chat"
-            style="min-height:180px;max-height:280px;overflow-y:auto;margin-bottom:12px;padding:10px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
-            <div style="font-size:11px;color:var(--text3);font-family:var(--mono);text-align:center;padding:20px 0">Chọn
-              loại phân tích bên dưới hoặc nhập câu hỏi</div>
-          </div>
-          <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
-            <button class="btn" style="font-size:10px" onclick="aiQuery('Tóm tắt toàn bộ tiến độ dự án web')">📊 Tóm tắt
-              tiến độ</button>
-            <button class="btn" style="font-size:10px" onclick="aiQuery('Phân tích rủi ro và task nào cần ưu tiên')">⚠️
-              Phân tích rủi ro</button>
-            <button class="btn" style="font-size:10px" onclick="aiQuery('Gợi ý phân công công việc cho team')">👥 Phân
-              công team</button>
-            <button class="btn" style="font-size:10px" onclick="aiQuery('Dự đoán thời gian hoàn thành dự án')">🗓 Dự
-              đoán timeline</button>
-          </div>
-          <div style="display:flex;gap:7px">
-            <input class="fi" id="ai-inp" placeholder="Hỏi AI về dự án của bạn..." style="flex:1;font-size:12px">
-            <button class="btn btn-blue" onclick="aiSend()" style="flex-shrink:0">Gửi ↗</button>
+          <div class="chart-card"
+            style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px">
+            <div class="chart-title">Danh sách tất cả tasks</div>
+            <table style="width:100%;border-collapse:collapse;font-size:11px">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">#
+                  </th>
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
+                    Tiêu đề</th>
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
+                    Tag</th>
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
+                    Trạng thái</th>
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
+                    Tiến độ</th>
+                  <th
+                    style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:400;font-family:var(--mono)">
+                    Hạn</th>
+                </tr>
+              </thead>
+              <tbody id="report-table"></tbody>
+            </table>
           </div>
         </div>
-      </div>
-      <!-- DASHBOARD PAGE -->
-      <div class="page" id="pg-dashboard">
-        <div class="stats" id="dash-stats" style="margin-bottom:14px"></div>
-        <div
-          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px;margin-bottom:12px">
-          <div class="chart-title">Hoạt động gần đây</div>
-          <div id="activity-log" style="font-size:11px;color:var(--text2);font-family:var(--mono)"></div>
+        <!-- AI PAGE -->
+        <div class="page" id="pg-ai">
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px">
+            <div class="ai-header" style="margin-bottom:14px">
+              <div class="ai-icon" style="width:32px;height:32px;font-size:16px">✦</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--mono)">Claude AI
+                  Assistant
+                </div>
+                <div style="font-size:10px;color:var(--text3)">Phân tích dự án & gợi ý cải thiện</div>
+              </div>
+            </div>
+            <div id="ai-chat"
+              style="min-height:180px;max-height:280px;overflow-y:auto;margin-bottom:12px;padding:10px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
+              <div style="font-size:11px;color:var(--text3);font-family:var(--mono);text-align:center;padding:20px 0">
+                Chọn
+                loại phân tích bên dưới hoặc nhập câu hỏi</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+              <button class="btn" style="font-size:10px" onclick="aiQuery('Tóm tắt toàn bộ tiến độ dự án web')">📊 Tóm
+                tắt
+                tiến độ</button>
+              <button class="btn" style="font-size:10px"
+                onclick="aiQuery('Phân tích rủi ro và task nào cần ưu tiên')">⚠️
+                Phân tích rủi ro</button>
+              <button class="btn" style="font-size:10px" onclick="aiQuery('Gợi ý phân công công việc cho team')">👥 Phân
+                công team</button>
+              <button class="btn" style="font-size:10px" onclick="aiQuery('Dự đoán thời gian hoàn thành dự án')">🗓 Dự
+                đoán timeline</button>
+            </div>
+            <div style="display:flex;gap:7px">
+              <input class="fi" id="ai-inp" placeholder="Hỏi AI về dự án của bạn..." style="flex:1;font-size:12px">
+              <button class="btn btn-blue" onclick="aiSend()" style="flex-shrink:0">Gửi ↗</button>
+            </div>
+          </div>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px">
-          <div class="chart-title">Tasks quá hạn / sắp đến hạn</div>
-          <div id="urgent-tasks" style="font-size:11px"></div>
+        <!-- DASHBOARD PAGE -->
+        <div class="page" id="pg-dashboard">
+          <div class="stats" id="dash-stats" style="margin-bottom:14px"></div>
+          <div
+            style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px;margin-bottom:12px">
+            <div class="chart-title">Hoạt động gần đây</div>
+            <div id="activity-log" style="font-size:11px;color:var(--text2);font-family:var(--mono)"></div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px">
+            <div class="chart-title">Tasks quá hạn / sắp đến hạn</div>
+            <div id="urgent-tasks" style="font-size:11px"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- MODAL -->
-  <div id="modal-bg">
-    <div id="modal">
-      <div class="modal-h">
-        <h3 id="modal-ttl">Thêm task mới</h3>
-        <button class="mc" onclick="closeModal()"><i class="ti ti-x" aria-hidden="true"></i></button>
-      </div>
-      <div class="fl">Tiêu đề task *</div>
-      <input class="fi" id="m-title" placeholder="Ví dụ: Xây dựng REST API endpoint">
-      <div class="fl">Mô tả ngắn</div>
-      <textarea class="fi" id="m-desc" placeholder="Chi tiết công việc..."></textarea>
-      <div class="fl">Loại task</div>
-      <select class="fi" id="m-tag">
-        <option value="blue">Frontend</option>
-        <option value="green">Backend</option>
-        <option value="amber">DevOps</option>
-        <option value="red">Bug Fix</option>
-        <option value="purple">Design / UX</option>
-      </select>
-      <div class="fl">Cột trạng thái</div>
-      <select class="fi" id="m-col">
-        <option value="0">📋 Backlog</option>
-        <option value="1">🔄 In Progress</option>
-        <option value="2">👀 Review</option>
-        <option value="3">✅ Done</option>
-      </select>
-      <div class="fl">Ưu tiên</div>
-      <select class="fi" id="m-prio">
-        <option value="high">🔴 Cao</option>
-        <option value="med">🟡 Trung bình</option>
-        <option value="low">🟢 Thấp</option>
-      </select>
-      <div class="fl">Người thực hiện</div>
-      <select class="fi" id="m-assign">
-        <option value="NT">NT — Nguyễn Tuấn</option>
-        <option value="ML">ML — Mai Linh</option>
-        <option value="PH">PH — Phúc Hùng</option>
-        <option value="TK">TK — Thu Khánh</option>
-      </select>
-      <div class="fl">Hạn hoàn thành</div>
-      <input type="date" class="fi" id="m-due">
-      <div class="fl">Tiến độ (%)</div>
-      <input type="range" class="fi" id="m-prog" min="0" max="100" value="0" step="5"
-        oninput="document.getElementById('prog-val').textContent=this.value+'%'" style="padding:8px 0">
-      <div style="font-size:10px;color:var(--text3);font-family:var(--mono);text-align:right" id="prog-val">0%</div>
-      <div class="modal-foot">
-        <button class="btn mc" onclick="closeModal()">Hủy</button>
-        <button class="btn btn-blue" onclick="saveTask()">Lưu task</button>
+    <!-- MODAL -->
+    <div id="modal-bg">
+      <div id="modal">
+        <div class="modal-h">
+          <h3 id="modal-ttl">Thêm task mới</h3>
+          <button class="mc" onclick="closeModal()"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </div>
+        <div class="fl">Tiêu đề task *</div>
+        <input class="fi" id="m-title" placeholder="Ví dụ: Xây dựng REST API endpoint">
+        <div class="fl">Mô tả ngắn</div>
+        <textarea class="fi" id="m-desc" placeholder="Chi tiết công việc..."></textarea>
+        <div class="fl">Loại task</div>
+        <select class="fi" id="m-tag">
+          <option value="blue">Frontend</option>
+          <option value="green">Backend</option>
+          <option value="amber">DevOps</option>
+          <option value="red">Bug Fix</option>
+          <option value="purple">Design / UX</option>
+        </select>
+        <div class="fl">Cột trạng thái</div>
+        <select class="fi" id="m-col">
+          <option value="0">📋 Backlog</option>
+          <option value="1">🔄 In Progress</option>
+          <option value="2">👀 Review</option>
+          <option value="3">✅ Done</option>
+        </select>
+        <div class="fl">Ưu tiên</div>
+        <select class="fi" id="m-prio">
+          <option value="high">🔴 Cao</option>
+          <option value="med">🟡 Trung bình</option>
+          <option value="low">🟢 Thấp</option>
+        </select>
+        <div class="fl">Người thực hiện</div>
+        <select class="fi" id="m-assign">
+          <option value="NT">NT — Nguyễn Tuấn</option>
+          <option value="ML">ML — Mai Linh</option>
+          <option value="PH">PH — Phúc Hùng</option>
+          <option value="TK">TK — Thu Khánh</option>
+        </select>
+        <div class="fl">Hạn hoàn thành</div>
+        <input type="date" class="fi" id="m-due">
+        <div class="fl">Tiến độ (%)</div>
+        <input type="range" class="fi" id="m-prog" min="0" max="100" value="0" step="5"
+          oninput="document.getElementById('prog-val').textContent=this.value+'%'" style="padding:8px 0">
+        <div style="font-size:10px;color:var(--text3);font-family:var(--mono);text-align:right" id="prog-val">0%</div>
+        <div class="modal-foot">
+          <button class="btn mc" onclick="closeModal()">Hủy</button>
+          <button class="btn btn-blue" onclick="saveTask()">Lưu task</button>
+        </div>
       </div>
     </div>
+    <div id="toast"><i class="ti ti-circle-check" aria-hidden="true"></i> <span id="toast-msg"></span></div>
   </div>
-  <div id="toast"><i class="ti ti-circle-check" aria-hidden="true"></i> <span id="toast-msg"></span></div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script>
-  const COLS = [
-    {
-      id: 'backlog', label: 'Backlog', dot: '#8b949e', tasks: [
-        { id: 1, title: 'Thiết kế database schema', desc: 'ERD cho module người dùng & dự án', tag: 'blue', prio: 'high', due: '2025-05-20', progress: 0, assign: ['NT', 'ML'] },
-        { id: 2, title: 'Phân tích yêu cầu UI/UX', desc: 'Wireframe cho 5 màn hình chính', tag: 'purple', prio: 'med', due: '2025-05-18', progress: 10, assign: ['TK'] },
-      ]
-    },
-    {
-      id: 'inprog', label: 'In Progress', dot: '#58a6ff', tasks: [
-        { id: 3, title: 'Xây dựng REST API users', desc: 'CRUD endpoints + JWT auth', tag: 'green', prio: 'high', due: '2025-05-15', progress: 70, assign: ['PH', 'NT'] },
-        { id: 4, title: 'UI Dashboard component', desc: 'React + Tailwind kanban board', tag: 'blue', prio: 'high', due: '2025-05-14', progress: 55, assign: ['ML'] },
-        { id: 5, title: 'Setup CI/CD pipeline', desc: 'GitHub Actions → Docker → VPS', tag: 'amber', prio: 'med', due: '2025-05-22', progress: 30, assign: ['NT'] },
-      ]
-    },
-    {
-      id: 'review', label: 'Review', dot: '#d29922', tasks: [
-        { id: 6, title: 'Fix bug login session', desc: 'Session expire không redirect đúng', tag: 'red', prio: 'high', due: '2025-05-10', progress: 95, assign: ['PH'] },
-        { id: 7, title: 'Responsive mobile nav', desc: 'Menu collapse cho màn hình < 768px', tag: 'purple', prio: 'low', due: '2025-05-12', progress: 100, assign: ['ML', 'TK'] },
-      ]
-    },
-    {
-      id: 'done', label: 'Done', dot: '#3fb950', tasks: [
-        { id: 8, title: 'Setup project repo & branch', desc: 'Git flow, naming convention docs', tag: 'amber', prio: 'low', due: '2025-04-30', progress: 100, assign: ['NT'] },
-        { id: 9, title: 'Landing page HTML/CSS', desc: 'Hero, features, footer sections', tag: 'blue', prio: 'med', due: '2025-05-05', progress: 100, assign: ['TK', 'ML'] },
-      ]
-    },
-  ];
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    const COLS = [
+      {
+        id: 'backlog', label: 'Backlog', dot: '#8b949e', tasks: [
+          { id: 1, title: 'Thiết kế database schema', desc: 'ERD cho module người dùng & dự án', tag: 'blue', prio: 'high', due: '2025-05-20', progress: 0, assign: ['NT', 'ML'] },
+          { id: 2, title: 'Phân tích yêu cầu UI/UX', desc: 'Wireframe cho 5 màn hình chính', tag: 'purple', prio: 'med', due: '2025-05-18', progress: 10, assign: ['TK'] },
+        ]
+      },
+      {
+        id: 'inprog', label: 'In Progress', dot: '#58a6ff', tasks: [
+          { id: 3, title: 'Xây dựng REST API users', desc: 'CRUD endpoints + JWT auth', tag: 'green', prio: 'high', due: '2025-05-15', progress: 70, assign: ['PH', 'NT'] },
+          { id: 4, title: 'UI Dashboard component', desc: 'React + Tailwind kanban board', tag: 'blue', prio: 'high', due: '2025-05-14', progress: 55, assign: ['ML'] },
+          { id: 5, title: 'Setup CI/CD pipeline', desc: 'GitHub Actions → Docker → VPS', tag: 'amber', prio: 'med', due: '2025-05-22', progress: 30, assign: ['NT'] },
+        ]
+      },
+      {
+        id: 'review', label: 'Review', dot: '#d29922', tasks: [
+          { id: 6, title: 'Fix bug login session', desc: 'Session expire không redirect đúng', tag: 'red', prio: 'high', due: '2025-05-10', progress: 95, assign: ['PH'] },
+          { id: 7, title: 'Responsive mobile nav', desc: 'Menu collapse cho màn hình < 768px', tag: 'purple', prio: 'low', due: '2025-05-12', progress: 100, assign: ['ML', 'TK'] },
+        ]
+      },
+      {
+        id: 'done', label: 'Done', dot: '#3fb950', tasks: [
+          { id: 8, title: 'Setup project repo & branch', desc: 'Git flow, naming convention docs', tag: 'amber', prio: 'low', due: '2025-04-30', progress: 100, assign: ['NT'] },
+          { id: 9, title: 'Landing page HTML/CSS', desc: 'Hero, features, footer sections', tag: 'blue', prio: 'med', due: '2025-05-05', progress: 100, assign: ['TK', 'ML'] },
+        ]
+      },
+    ];
 
-  const TAG_LABELS = { blue: 'Frontend', green: 'Backend', amber: 'DevOps', red: 'Bug Fix', purple: 'Design' };
-  const AV_COLORS = { NT: ['#0d2340', '#58a6ff'], ML: ['#0f2d1a', '#3fb950'], PH: ['#271d00', '#d29922'], TK: ['#1c1540', '#bc8cff'] };
-  let nextId = 10, editId = -1, dragTask = null, dragFromCol = null;
-  let calYear = 2025, calMonth = 4;
-  const activity = [];
+    const TAG_LABELS = { blue: 'Frontend', green: 'Backend', amber: 'DevOps', red: 'Bug Fix', purple: 'Design' };
+    const AV_COLORS = { NT: ['#0d2340', '#58a6ff'], ML: ['#0f2d1a', '#3fb950'], PH: ['#271d00', '#d29922'], TK: ['#1c1540', '#bc8cff'] };
+    let nextId = 10, editId = -1, dragTask = null, dragFromCol = null;
+    let calYear = 2025, calMonth = 4;
+    const activity = [];
 
-  function addActivity(msg) { activity.unshift({ msg, time: new Date().toLocaleTimeString('vi', { hour: '2-digit', minute: '2-digit' }) }); if (activity.length > 8) activity.pop(); }
+    function addActivity(msg) { activity.unshift({ msg, time: new Date().toLocaleTimeString('vi', { hour: '2-digit', minute: '2-digit' }) }); if (activity.length > 8) activity.pop(); }
 
-  function allTasks() { return COLS.flatMap(c => c.tasks.map(t => ({ ...t, colId: c.id, colLabel: c.label }))); }
+    function allTasks() { return COLS.flatMap(c => c.tasks.map(t => ({ ...t, colId: c.id, colLabel: c.label }))); }
 
-  function renderStats(targetId) {
-    const all = allTasks();
-    const total = all.length, done = COLS[3].tasks.length, inprog = COLS[1].tasks.length;
-    const overdue = all.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).length;
-    const pct = total ? Math.round(done / total * 100) : 0;
-    const el = document.getElementById(targetId);
-    if (!el) return;
-    el.innerHTML = `
+    function renderStats(targetId) {
+      const all = allTasks();
+      const total = all.length, done = COLS[3].tasks.length, inprog = COLS[1].tasks.length;
+      const overdue = all.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).length;
+      const pct = total ? Math.round(done / total * 100) : 0;
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      el.innerHTML = `
     <div class="sc"><div class="sc-label">Total Tasks</div><div class="sc-val" style="color:var(--blue)">${total}</div><div class="sc-sub">Tất cả tasks</div></div>
     <div class="sc"><div class="sc-label">In Progress</div><div class="sc-val" style="color:var(--amber)">${inprog}</div><div class="sc-sub">Đang thực hiện</div></div>
     <div class="sc"><div class="sc-label">Overdue</div><div class="sc-val" style="color:var(--red)">${overdue}</div><div class="sc-sub">Quá hạn</div></div>
     <div class="sc"><div class="sc-label">Completed</div><div class="sc-val" style="color:var(--green)">${pct}%</div><div class="sc-sub">${done}/${total} tasks</div></div>`;
-    document.getElementById('sb-cnt').textContent = inprog + COLS[1].tasks.filter(t => t.prio === 'high').length;
-  }
+      document.getElementById('sb-cnt').textContent = inprog + COLS[1].tasks.filter(t => t.prio === 'high').length;
+    }
 
-  function renderBoard() {
-    renderStats('stats-row');
-    const kb = document.getElementById('kanban');
-    kb.innerHTML = '';
-    COLS.forEach((col, ci) => {
-      const div = document.createElement('div');
-      div.className = 'kcol'; div.dataset.col = ci;
-      div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
-      div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
-      div.addEventListener('drop', e => { e.preventDefault(); div.classList.remove('drag-over'); dropTask(ci); });
-      div.innerHTML = `<div class="khead"><div class="khead-left"><span class="kdot" style="background:${col.dot}"></span>${col.label}</div><span class="kcount">${col.tasks.length}</span></div>`;
-      col.tasks.forEach((t, ti) => {
-        const tc = document.createElement('div');
-        tc.className = 'tc'; tc.draggable = true;
-        tc.addEventListener('dragstart', () => { tc.classList.add('dragging'); dragTask = ti; dragFromCol = ci; });
-        tc.addEventListener('dragend', () => tc.classList.remove('dragging'));
-        const avs = t.assign.map(a => { const c = AV_COLORS[a] || ['#21262d', '#8b949e']; return `<div class="av sm" style="background:${c[0]};color:${c[1]}">${a}</div>`; }).join('');
-        const pb = t.progress > 0 ? `<div class="pb-wrap"><div class="pb" style="width:${t.progress}%;background:${t.progress === 100 ? '#3fb950' : t.progress > 50 ? '#58a6ff' : '#d29922'}"></div></div>` : '';
-        const dueStr = t.due ? new Date(t.due).toLocaleDateString('vi', { day: '2-digit', month: '2-digit' }) : '—';
-        const isOver = t.due && new Date(t.due) < new Date() && t.progress < 100;
-        tc.innerHTML = `
+    function renderBoard() {
+      renderStats('stats-row');
+      const kb = document.getElementById('kanban');
+      kb.innerHTML = '';
+      COLS.forEach((col, ci) => {
+        const div = document.createElement('div');
+        div.className = 'kcol'; div.dataset.col = ci;
+        div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
+        div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+        div.addEventListener('drop', e => { e.preventDefault(); div.classList.remove('drag-over'); dropTask(ci); });
+        div.innerHTML = `<div class="khead"><div class="khead-left"><span class="kdot" style="background:${col.dot}"></span>${col.label}</div><span class="kcount">${col.tasks.length}</span></div>`;
+        col.tasks.forEach((t, ti) => {
+          const tc = document.createElement('div');
+          tc.className = 'tc'; tc.draggable = true;
+          tc.addEventListener('dragstart', () => { tc.classList.add('dragging'); dragTask = ti; dragFromCol = ci; });
+          tc.addEventListener('dragend', () => tc.classList.remove('dragging'));
+          const avs = t.assign.map(a => { const c = AV_COLORS[a] || ['#21262d', '#8b949e']; return `<div class="av sm" style="background:${c[0]};color:${c[1]}">${a}</div>`; }).join('');
+          const pb = t.progress > 0 ? `<div class="pb-wrap"><div class="pb" style="width:${t.progress}%;background:${t.progress === 100 ? '#3fb950' : t.progress > 50 ? '#58a6ff' : '#d29922'}"></div></div>` : '';
+          const dueStr = t.due ? new Date(t.due).toLocaleDateString('vi', { day: '2-digit', month: '2-digit' }) : '—';
+          const isOver = t.due && new Date(t.due) < new Date() && t.progress < 100;
+          tc.innerHTML = `
         <span class="tc-tag tag-${t.tag}">${TAG_LABELS[t.tag]}</span>
         <div class="tc-title"><span class="prio prio-${t.prio}"></span>${t.title}</div>
         ${t.desc ? `<div class="tc-desc">${t.desc}</div>` : ''}
@@ -1176,122 +1199,122 @@
           <div class="tc-due" style="color:${isOver ? 'var(--red)' : 'var(--text3)'}"><i class="ti ti-calendar" style="font-size:10px" aria-hidden="true"></i> ${dueStr}</div>
           <div class="tc-avs">${avs}</div>
         </div>`;
-        tc.ondblclick = () => openModal(ci, ti);
-        div.appendChild(tc);
+          tc.ondblclick = () => openModal(ci, ti);
+          div.appendChild(tc);
+        });
+        const add = document.createElement('div'); add.className = 'add-task-btn';
+        add.innerHTML = '<i class="ti ti-plus" style="font-size:11px" aria-hidden="true"></i> Thêm task';
+        add.onclick = () => openModal(ci); div.appendChild(add);
+        kb.appendChild(div);
       });
-      const add = document.createElement('div'); add.className = 'add-task-btn';
-      add.innerHTML = '<i class="ti ti-plus" style="font-size:11px" aria-hidden="true"></i> Thêm task';
-      add.onclick = () => openModal(ci); div.appendChild(add);
-      kb.appendChild(div);
-    });
-  }
-
-  function dropTask(targetCol) {
-    if (dragTask === null || dragFromCol === null) return;
-    if (dragFromCol === targetCol) return;
-    const task = COLS[dragFromCol].tasks.splice(dragTask, 1)[0];
-    COLS[targetCol].tasks.unshift(task);
-    addActivity(`Moved "${task.title.substring(0, 30)}..." → ${COLS[targetCol].label}`);
-    renderBoard(); toast(`Đã chuyển sang "${COLS[targetCol].label}"`);
-    dragTask = null; dragFromCol = null;
-  }
-
-  // MODAL
-  let editCol = -1, editTi = -1;
-  function openModal(ci, ti = -1) {
-    editCol = ci; editTi = ti;
-    if (ti >= 0 && ci >= 0) {
-      const t = COLS[ci].tasks[ti];
-      document.getElementById('modal-ttl').textContent = 'Chỉnh sửa task';
-      document.getElementById('m-title').value = t.title;
-      document.getElementById('m-desc').value = t.desc || '';
-      document.getElementById('m-tag').value = t.tag;
-      document.getElementById('m-col').value = ci;
-      document.getElementById('m-prio').value = t.prio || 'med';
-      document.getElementById('m-assign').value = t.assign[0] || 'NT';
-      document.getElementById('m-due').value = t.due || '';
-      document.getElementById('m-prog').value = t.progress || 0;
-      document.getElementById('prog-val').textContent = (t.progress || 0) + '%';
-    } else {
-      document.getElementById('modal-ttl').textContent = 'Thêm task mới';
-      document.getElementById('m-title').value = '';
-      document.getElementById('m-desc').value = '';
-      document.getElementById('m-col').value = ci >= 0 ? ci : 0;
-      document.getElementById('m-prio').value = 'med';
-      document.getElementById('m-prog').value = 0;
-      document.getElementById('prog-val').textContent = '0%';
     }
-    document.getElementById('modal-bg').classList.add('show');
-    setTimeout(() => document.getElementById('m-title').focus(), 100);
-  }
-  function closeModal() { document.getElementById('modal-bg').classList.remove('show'); }
-  function saveTask() {
-    const title = document.getElementById('m-title').value.trim();
-    if (!title) { document.getElementById('m-title').focus(); return; }
-    const ci = parseInt(document.getElementById('m-col').value);
-    const task = {
-      id: editTi >= 0 && editCol >= 0 ? COLS[editCol].tasks[editTi].id : nextId++,
-      title, desc: document.getElementById('m-desc').value.trim(),
-      tag: document.getElementById('m-tag').value,
-      prio: document.getElementById('m-prio').value,
-      assign: [document.getElementById('m-assign').value],
-      due: document.getElementById('m-due').value,
-      progress: parseInt(document.getElementById('m-prog').value),
-    };
-    if (editTi >= 0 && editCol >= 0) { COLS[editCol].tasks.splice(editTi, 1); }
-    COLS[ci].tasks.unshift(task);
-    addActivity(`${editTi >= 0 ? 'Updated' : 'Added'} task: "${title.substring(0, 30)}..."`);
-    closeModal(); renderBoard(); toast(editTi >= 0 ? 'Đã cập nhật task' : 'Đã thêm task mới');
-  }
 
-  // CALENDAR
-  function renderCalendar() {
-    const months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
-    document.getElementById('cal-title').textContent = `${months[calMonth]} ${calYear}`;
-    const names = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-    document.getElementById('cal-names').innerHTML = names.map(d => `<div class="cal-day-name">${d}</div>`).join('');
-    const first = new Date(calYear, calMonth, 1).getDay();
-    const days = new Date(calYear, calMonth + 1, 0).getDate();
-    const tasks = allTasks().filter(t => t.due);
-    let html = '';
-    for (let i = 0; i < first; i++) { const d = new Date(calYear, calMonth, -first + i + 1).getDate(); html += `<div class="cal-day other-month"><div class="cal-num" style="color:var(--text3)">${d}</div></div>`; }
-    for (let d = 1; d <= days; d++) {
-      const today = new Date(); const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
-      const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-      const dayTasks = tasks.filter(t => t.due === dateStr);
-      const evHTML = dayTasks.slice(0, 2).map(t => `<div class="cal-event ev-${t.tag}">${t.title.substring(0, 14)}</div>`).join('');
-      html += `<div class="cal-day${isToday ? ' today' : ''}"><div class="cal-num">${d}</div>${evHTML}${dayTasks.length > 2 ? `<div class="cal-event" style="color:var(--text3)">+${dayTasks.length - 2} more</div>` : ''}</div>`;
+    function dropTask(targetCol) {
+      if (dragTask === null || dragFromCol === null) return;
+      if (dragFromCol === targetCol) return;
+      const task = COLS[dragFromCol].tasks.splice(dragTask, 1)[0];
+      COLS[targetCol].tasks.unshift(task);
+      addActivity(`Moved "${task.title.substring(0, 30)}..." → ${COLS[targetCol].label}`);
+      renderBoard(); toast(`Đã chuyển sang "${COLS[targetCol].label}"`);
+      dragTask = null; dragFromCol = null;
     }
-    document.getElementById('cal-grid').innerHTML = html;
-  }
-  function calNav(dir) { calMonth += dir; if (calMonth > 11) { calMonth = 0; calYear++; } if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
 
-  // REPORT
-  function renderReport() {
-    const all = allTasks();
-    // Bar chart
-    const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
-    const counts = [2, 3, 1, 4, 6, 3];
-    const maxV = Math.max(...counts);
-    document.getElementById('bar-chart').innerHTML = months.map((m, i) => `
+    // MODAL
+    let editCol = -1, editTi = -1;
+    function openModal(ci, ti = -1) {
+      editCol = ci; editTi = ti;
+      if (ti >= 0 && ci >= 0) {
+        const t = COLS[ci].tasks[ti];
+        document.getElementById('modal-ttl').textContent = 'Chỉnh sửa task';
+        document.getElementById('m-title').value = t.title;
+        document.getElementById('m-desc').value = t.desc || '';
+        document.getElementById('m-tag').value = t.tag;
+        document.getElementById('m-col').value = ci;
+        document.getElementById('m-prio').value = t.prio || 'med';
+        document.getElementById('m-assign').value = t.assign[0] || 'NT';
+        document.getElementById('m-due').value = t.due || '';
+        document.getElementById('m-prog').value = t.progress || 0;
+        document.getElementById('prog-val').textContent = (t.progress || 0) + '%';
+      } else {
+        document.getElementById('modal-ttl').textContent = 'Thêm task mới';
+        document.getElementById('m-title').value = '';
+        document.getElementById('m-desc').value = '';
+        document.getElementById('m-col').value = ci >= 0 ? ci : 0;
+        document.getElementById('m-prio').value = 'med';
+        document.getElementById('m-prog').value = 0;
+        document.getElementById('prog-val').textContent = '0%';
+      }
+      document.getElementById('modal-bg').classList.add('show');
+      setTimeout(() => document.getElementById('m-title').focus(), 100);
+    }
+    function closeModal() { document.getElementById('modal-bg').classList.remove('show'); }
+    function saveTask() {
+      const title = document.getElementById('m-title').value.trim();
+      if (!title) { document.getElementById('m-title').focus(); return; }
+      const ci = parseInt(document.getElementById('m-col').value);
+      const task = {
+        id: editTi >= 0 && editCol >= 0 ? COLS[editCol].tasks[editTi].id : nextId++,
+        title, desc: document.getElementById('m-desc').value.trim(),
+        tag: document.getElementById('m-tag').value,
+        prio: document.getElementById('m-prio').value,
+        assign: [document.getElementById('m-assign').value],
+        due: document.getElementById('m-due').value,
+        progress: parseInt(document.getElementById('m-prog').value),
+      };
+      if (editTi >= 0 && editCol >= 0) { COLS[editCol].tasks.splice(editTi, 1); }
+      COLS[ci].tasks.unshift(task);
+      addActivity(`${editTi >= 0 ? 'Updated' : 'Added'} task: "${title.substring(0, 30)}..."`);
+      closeModal(); renderBoard(); toast(editTi >= 0 ? 'Đã cập nhật task' : 'Đã thêm task mới');
+    }
+
+    // CALENDAR
+    function renderCalendar() {
+      const months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+      document.getElementById('cal-title').textContent = `${months[calMonth]} ${calYear}`;
+      const names = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+      document.getElementById('cal-names').innerHTML = names.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+      const first = new Date(calYear, calMonth, 1).getDay();
+      const days = new Date(calYear, calMonth + 1, 0).getDate();
+      const tasks = allTasks().filter(t => t.due);
+      let html = '';
+      for (let i = 0; i < first; i++) { const d = new Date(calYear, calMonth, -first + i + 1).getDate(); html += `<div class="cal-day other-month"><div class="cal-num" style="color:var(--text3)">${d}</div></div>`; }
+      for (let d = 1; d <= days; d++) {
+        const today = new Date(); const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+        const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const dayTasks = tasks.filter(t => t.due === dateStr);
+        const evHTML = dayTasks.slice(0, 2).map(t => `<div class="cal-event ev-${t.tag}">${t.title.substring(0, 14)}</div>`).join('');
+        html += `<div class="cal-day${isToday ? ' today' : ''}"><div class="cal-num">${d}</div>${evHTML}${dayTasks.length > 2 ? `<div class="cal-event" style="color:var(--text3)">+${dayTasks.length - 2} more</div>` : ''}</div>`;
+      }
+      document.getElementById('cal-grid').innerHTML = html;
+    }
+    function calNav(dir) { calMonth += dir; if (calMonth > 11) { calMonth = 0; calYear++; } if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
+
+    // REPORT
+    function renderReport() {
+      const all = allTasks();
+      // Bar chart
+      const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
+      const counts = [2, 3, 1, 4, 6, 3];
+      const maxV = Math.max(...counts);
+      document.getElementById('bar-chart').innerHTML = months.map((m, i) => `
     <div class="bar-col">
       <div class="bar-val">${counts[i]}</div>
       <div class="bar" style="height:${Math.round(counts[i] / maxV * 80)}px;background:${i === 4 ? 'var(--blue)' : 'var(--bg4)'}"></div>
       <div class="bar-label">${m}</div>
     </div>`).join('');
-    // Donut
-    const colCounts = COLS.map(c => c.tasks.length);
-    const colColors = ['#8b949e', '#58a6ff', '#d29922', '#3fb950'];
-    const colNames = ['Backlog', 'In Progress', 'Review', 'Done'];
-    const canvas = document.getElementById('donut'); const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 100, 100);
-    const total2 = colCounts.reduce((a, b) => a + b, 0) || 1;
-    let start = -Math.PI / 2;
-    colCounts.forEach((v, i) => { const slice = v / total2 * Math.PI * 2; ctx.beginPath(); ctx.moveTo(50, 50); ctx.arc(50, 50, 42, start, start + slice); ctx.closePath(); ctx.fillStyle = colColors[i]; ctx.fill(); start += slice; });
-    ctx.beginPath(); ctx.arc(50, 50, 25, 0, Math.PI * 2); ctx.fillStyle = '#161b22'; ctx.fill();
-    document.getElementById('donut-legend').innerHTML = colNames.map((n, i) => `<div class="legend-item"><span class="legend-dot" style="background:${colColors[i]}"></span>${n}: <strong style="color:var(--text)">${colCounts[i]}</strong></div>`).join('');
-    // Table
-    document.getElementById('report-table').innerHTML = all.map((t, i) => `
+      // Donut
+      const colCounts = COLS.map(c => c.tasks.length);
+      const colColors = ['#8b949e', '#58a6ff', '#d29922', '#3fb950'];
+      const colNames = ['Backlog', 'In Progress', 'Review', 'Done'];
+      const canvas = document.getElementById('donut'); const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 100, 100);
+      const total2 = colCounts.reduce((a, b) => a + b, 0) || 1;
+      let start = -Math.PI / 2;
+      colCounts.forEach((v, i) => { const slice = v / total2 * Math.PI * 2; ctx.beginPath(); ctx.moveTo(50, 50); ctx.arc(50, 50, 42, start, start + slice); ctx.closePath(); ctx.fillStyle = colColors[i]; ctx.fill(); start += slice; });
+      ctx.beginPath(); ctx.arc(50, 50, 25, 0, Math.PI * 2); ctx.fillStyle = '#161b22'; ctx.fill();
+      document.getElementById('donut-legend').innerHTML = colNames.map((n, i) => `<div class="legend-item"><span class="legend-dot" style="background:${colColors[i]}"></span>${n}: <strong style="color:var(--text)">${colCounts[i]}</strong></div>`).join('');
+      // Table
+      document.getElementById('report-table').innerHTML = all.map((t, i) => `
     <tr style="border-bottom:1px solid var(--border)">
       <td style="padding:5px 8px;color:var(--text3);font-family:var(--mono)">${i + 1}</td>
       <td style="padding:5px 8px;color:var(--text)">${t.title}</td>
@@ -1300,86 +1323,90 @@
       <td style="padding:5px 8px"><div style="display:flex;align-items:center;gap:6px"><div style="width:60px;height:3px;background:var(--bg4);border-radius:2px"><div style="width:${t.progress}%;height:3px;border-radius:2px;background:${t.progress === 100 ? 'var(--green)' : t.progress > 50 ? 'var(--blue)' : 'var(--amber)'}"></div></div><span style="font-size:9px;font-family:var(--mono);color:var(--text3)">${t.progress}%</span></div></td>
       <td style="padding:5px 8px;color:var(--text3);font-family:var(--mono)">${t.due || '—'}</td>
     </tr>`).join('');
-  }
+    }
 
-  // DASHBOARD
-  function renderDashboard() {
-    renderStats('dash-stats');
-    document.getElementById('activity-log').innerHTML = activity.length ? activity.map(a => `<div style="padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>${a.msg}</span><span style="color:var(--text3)">${a.time}</span></div>`).join('') : '<div style="color:var(--text3);padding:10px 0">Chưa có hoạt động nào.</div>';
-    const urgent = allTasks().filter(t => (t.prio === 'high' || t.progress < 100) && t.due && new Date(t.due) <= new Date(Date.now() + 7 * 864e5)).slice(0, 4);
-    document.getElementById('urgent-tasks').innerHTML = urgent.length ? urgent.map(t => { const isOver = new Date(t.due) < new Date() && t.progress < 100; return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span class="prio prio-${t.prio}"></span><span style="color:var(--text);font-size:12px;flex:1">${t.title}</span><span style="font-size:10px;font-family:var(--mono);color:${isOver ? 'var(--red)' : 'var(--amber)'}">${isOver ? 'Quá hạn' : t.due}</span></div>`; }).join('') : '<div style="color:var(--green);font-size:11px;padding:10px 0;font-family:var(--mono)">✓ Không có task khẩn cấp</div>';
-  }
+    // DASHBOARD
+    function renderDashboard() {
+      renderStats('dash-stats');
+      document.getElementById('activity-log').innerHTML = activity.length ? activity.map(a => `<div style="padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>${a.msg}</span><span style="color:var(--text3)">${a.time}</span></div>`).join('') : '<div style="color:var(--text3);padding:10px 0">Chưa có hoạt động nào.</div>';
+      const urgent = allTasks().filter(t => (t.prio === 'high' || t.progress < 100) && t.due && new Date(t.due) <= new Date(Date.now() + 7 * 864e5)).slice(0, 4);
+      document.getElementById('urgent-tasks').innerHTML = urgent.length ? urgent.map(t => { const isOver = new Date(t.due) < new Date() && t.progress < 100; return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span class="prio prio-${t.prio}"></span><span style="color:var(--text);font-size:12px;flex:1">${t.title}</span><span style="font-size:10px;font-family:var(--mono);color:${isOver ? 'var(--red)' : 'var(--amber)'}">${isOver ? 'Quá hạn' : t.due}</span></div>`; }).join('') : '<div style="color:var(--green);font-size:11px;padding:10px 0;font-family:var(--mono)">✓ Không có task khẩn cấp</div>';
+    }
 
-  // AI
-  async function callAI() {
-    document.getElementById('ai-panel').style.display = 'block';
-    const tasks = allTasks();
-    const summary = `Dự án web gồm ${tasks.length} tasks: ${COLS.map(c => `${c.label}: ${c.tasks.length} tasks`).join(', ')}. Tasks ưu tiên cao: ${tasks.filter(t => t.prio === 'high').map(t => t.title).join(', ') || 'không có'}. Tasks quá hạn: ${tasks.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).map(t => t.title).join(', ') || 'không có'}.`;
-    const out = document.getElementById('ai-out');
-    out.innerHTML = '<div class="ai-loading"><div class="dots"><span>.</span><span>.</span><span>.</span></div> Claude đang phân tích...</div>';
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: `Bạn là AI quản lý dự án IT. Hãy phân tích ngắn gọn (3-4 câu, tiếng Việt): ${summary}. Nêu điểm tốt, rủi ro và 1-2 gợi ý cụ thể.` }] }) });
-      const data = await res.json();
-      const text = data.content?.map(c => c.text || '').join('') || 'Không nhận được phản hồi.';
-      out.innerHTML = text;
-    } catch (e) { out.innerHTML = 'Không thể kết nối API. Hãy kiểm tra kết nối mạng.'; }
-  }
+    // AI
+    async function callAI() {
+      document.getElementById('ai-panel').style.display = 'block';
+      const tasks = allTasks();
+      const summary = `Dự án web gồm ${tasks.length} tasks: ${COLS.map(c => `${c.label}: ${c.tasks.length} tasks`).join(', ')}. Tasks ưu tiên cao: ${tasks.filter(t => t.prio === 'high').map(t => t.title).join(', ') || 'không có'}. Tasks quá hạn: ${tasks.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).map(t => t.title).join(', ') || 'không có'}.`;
+      const out = document.getElementById('ai-out');
+      out.innerHTML = '<div class="ai-loading"><div class="dots"><span>.</span><span>.</span><span>.</span></div> Claude đang phân tích...</div>';
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: `Bạn là AI quản lý dự án IT. Hãy phân tích ngắn gọn (3-4 câu, tiếng Việt): ${summary}. Nêu điểm tốt, rủi ro và 1-2 gợi ý cụ thể.` }] }) });
+        const data = await res.json();
+        const text = data.content?.map(c => c.text || '').join('') || 'Không nhận được phản hồi.';
+        out.innerHTML = text;
+      } catch (e) { out.innerHTML = 'Không thể kết nối API. Hãy kiểm tra kết nối mạng.'; }
+    }
 
-  async function aiQuery(q) {
-    const chat = document.getElementById('ai-chat');
-    chat.innerHTML += `<div style="margin-bottom:8px;text-align:right"><span style="background:var(--blue-bg);color:var(--blue);padding:4px 8px;border-radius:4px;font-size:11px">${q}</span></div>`;
-    chat.innerHTML += `<div id="ai-resp-tmp" style="margin-bottom:10px;color:var(--text2);font-size:11px;border-left:2px solid var(--purple);padding-left:8px"><div class="ai-loading"><div class="dots"><span>.</span><span>.</span><span>.</span></div> Đang xử lý...</div></div>`;
-    chat.scrollTop = chat.scrollHeight;
-    const tasks = allTasks();
-    const ctx = `Dự án web: ${tasks.length} tasks. Backlog: ${COLS[0].tasks.length}, In Progress: ${COLS[1].tasks.length}, Review: ${COLS[2].tasks.length}, Done: ${COLS[3].tasks.length}. Overdue: ${tasks.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).length}. High priority: ${tasks.filter(t => t.prio === 'high').length}.`;
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: `Bối cảnh: ${ctx}\n\nCâu hỏi: ${q}\n\nTrả lời ngắn gọn bằng tiếng Việt (3-5 câu, thực tế).` }] }) });
-      const data = await res.json();
-      const text = data.content?.map(c => c.text || '').join('') || 'Không có phản hồi.';
-      document.getElementById('ai-resp-tmp').innerHTML = text;
-      document.getElementById('ai-resp-tmp').removeAttribute('id');
-    } catch (e) { document.getElementById('ai-resp-tmp').innerHTML = 'Lỗi kết nối API.'; }
-    chat.scrollTop = chat.scrollHeight;
-  }
-  function aiSend() { const v = document.getElementById('ai-inp').value.trim(); if (v) { aiQuery(v); document.getElementById('ai-inp').value = ''; } }
-  document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.getElementById('pg-ai').classList.contains('active')) aiSend(); });
+    async function aiQuery(q) {
+      const chat = document.getElementById('ai-chat');
+      chat.innerHTML += `<div style="margin-bottom:8px;text-align:right"><span style="background:var(--blue-bg);color:var(--blue);padding:4px 8px;border-radius:4px;font-size:11px">${q}</span></div>`;
+      chat.innerHTML += `<div id="ai-resp-tmp" style="margin-bottom:10px;color:var(--text2);font-size:11px;border-left:2px solid var(--purple);padding-left:8px"><div class="ai-loading"><div class="dots"><span>.</span><span>.</span><span>.</span></div> Đang xử lý...</div></div>`;
+      chat.scrollTop = chat.scrollHeight;
+      const tasks = allTasks();
+      const ctx = `Dự án web: ${tasks.length} tasks. Backlog: ${COLS[0].tasks.length}, In Progress: ${COLS[1].tasks.length}, Review: ${COLS[2].tasks.length}, Done: ${COLS[3].tasks.length}. Overdue: ${tasks.filter(t => t.due && new Date(t.due) < new Date() && t.progress < 100).length}. High priority: ${tasks.filter(t => t.prio === 'high').length}.`;
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: `Bối cảnh: ${ctx}\n\nCâu hỏi: ${q}\n\nTrả lời ngắn gọn bằng tiếng Việt (3-5 câu, thực tế).` }] }) });
+        const data = await res.json();
+        const text = data.content?.map(c => c.text || '').join('') || 'Không có phản hồi.';
+        document.getElementById('ai-resp-tmp').innerHTML = text;
+        document.getElementById('ai-resp-tmp').removeAttribute('id');
+      } catch (e) { document.getElementById('ai-resp-tmp').innerHTML = 'Lỗi kết nối API.'; }
+      chat.scrollTop = chat.scrollHeight;
+    }
+    function aiSend() { const v = document.getElementById('ai-inp').value.trim(); if (v) { aiQuery(v); document.getElementById('ai-inp').value = ''; } }
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.getElementById('pg-ai').classList.contains('active')) aiSend(); });
 
-  // EXCEL EXPORT
-  function exportExcel() {
-    const all = allTasks();
-    const ws = XLSX.utils.json_to_sheet(all.map((t, i) => ({
-      '#': i + 1, 'Tiêu đề': t.title, 'Mô tả': t.desc || '', 'Loại': TAG_LABELS[t.tag] || t.tag,
-      'Trạng thái': t.colLabel, 'Ưu tiên': { high: 'Cao', med: 'Trung bình', low: 'Thấp' }[t.prio] || t.prio,
-      'Người thực hiện': t.assign.join(', '), 'Hạn': t.due || '', 'Tiến độ (%)': t.progress
-    })));
-    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Tasks');
-    ws['!cols'] = [{ wch: 4 }, { wch: 36 }, { wch: 30 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 18 }, { wch: 12 }, { wch: 12 }];
-    XLSX.writeFile(wb, 'devtrack_tasks.xlsx');
-    toast('Đã xuất file devtrack_tasks.xlsx'); addActivity('Exported tasks to Excel');
-  }
+    // EXCEL EXPORT
+    function exportExcel() {
+      const all = allTasks();
+      const ws = XLSX.utils.json_to_sheet(all.map((t, i) => ({
+        '#': i + 1, 'Tiêu đề': t.title, 'Mô tả': t.desc || '', 'Loại': TAG_LABELS[t.tag] || t.tag,
+        'Trạng thái': t.colLabel, 'Ưu tiên': { high: 'Cao', med: 'Trung bình', low: 'Thấp' }[t.prio] || t.prio,
+        'Người thực hiện': t.assign.join(', '), 'Hạn': t.due || '', 'Tiến độ (%)': t.progress
+      })));
+      const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Tasks');
+      ws['!cols'] = [{ wch: 4 }, { wch: 36 }, { wch: 30 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 18 }, { wch: 12 }, { wch: 12 }];
+      XLSX.writeFile(wb, 'devtrack_tasks.xlsx');
+      toast('Đã xuất file devtrack_tasks.xlsx'); addActivity('Exported tasks to Excel');
+    }
 
-  // NAV
-  function go(el, page) {
-    document.querySelectorAll('.ni').forEach(n => n.classList.remove('active')); el.classList.add('active');
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('pg-' + page).classList.add('active');
-    const titles = { dashboard: 'Dashboard', board: 'Kanban Board', calendar: 'Lịch công tác', report: 'Báo cáo thống kê', ai: 'AI Assistant' };
-    const breads = { dashboard: 'devtrack / dashboard', board: 'devtrack / kanban', calendar: 'devtrack / calendar', report: 'devtrack / report', ai: 'devtrack / ai' };
-    document.getElementById('ptitle').textContent = titles[page] || page;
-    document.getElementById('bread').textContent = breads[page] || 'devtrack / ' + page;
-    if (page === 'board') renderBoard();
-    else if (page === 'calendar') renderCalendar();
-    else if (page === 'report') renderReport();
-    else if (page === 'dashboard') renderDashboard();
-    else if (page === 'ai') { document.getElementById('pg-ai').classList.add('active'); }
-  }
+    // NAV
+    function go(el, page) {
+      document.querySelectorAll('.ni').forEach(n => n.classList.remove('active')); el.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('pg-' + page).classList.add('active');
+      const titles = { dashboard: 'Dashboard', board: 'Kanban Board', calendar: 'Lịch công tác', report: 'Báo cáo thống kê', ai: 'AI Assistant' };
+      const breads = { dashboard: 'devtrack / dashboard', board: 'devtrack / kanban', calendar: 'devtrack / calendar', report: 'devtrack / report', ai: 'devtrack / ai' };
+      document.getElementById('ptitle').textContent = titles[page] || page;
+      document.getElementById('bread').textContent = breads[page] || 'devtrack / ' + page;
+      if (page === 'board') renderBoard();
+      else if (page === 'calendar') renderCalendar();
+      else if (page === 'report') renderReport();
+      else if (page === 'dashboard') renderDashboard();
+      else if (page === 'ai') { document.getElementById('pg-ai').classList.add('active'); }
+    }
 
-  function toast(msg) {
-    const t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg;
-    t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
-  }
+    function toast(msg) {
+      const t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg;
+      t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
+    }
 
-  // INIT
-  addActivity('App started — DevTrack IT v2.0');
-  renderBoard();
-</script>
+    // INIT
+    addActivity('App started — DevTrack IT v2.0');
+    renderBoard();
+  </script>
+
+</body>
+
+</html>
